@@ -1,11 +1,12 @@
+% ANS DOCUMENT CLASS - ansconf.cls
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ansconf}[2012/09/21]
+\ProvidesClass{ansconf}[2018/07/06]
 
 \LoadClass[11pt,twoside]{article}
-\typeout{Loading ANS conference document class: includes [11pt,twoside]{article}}
-\typeout{adapted by Paul K. Romano from R.C. Martineau at INL, from A. Sood at
-  LANL, from J. Wagner (ORNL) who obtained the original class file by Jim Warsa,
-  LANL, 16 July 2002}
+\typeout{Loading ATH conference document class: includes [11pt,twoside]{article}}
+\typeout{adapted by Dillon Shaver (ANL), from Paul K. Romano (ANL), from R.C. 
+Martineau (INL), from A. Sood (LANL), from J. Wagner (ORNL) who obtained the 
+original class file by Jim Warsa (LANL), 16 July 2002}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Packages needed
@@ -20,7 +21,8 @@
 \RequirePackage{lastpage}    % texlive-latex-extra
 \RequirePackage{caption}     % texlive-latex-recommended
 \RequirePackage{titling}     % texlive-latex-extra
-\RequirePackage{authblk}     % texlive-latex-extra
+\RequirePackage[blocks]{authblk}     % texlive-latex-extra
+%\RequirePackage{natbib}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % page layout stuff
@@ -34,7 +36,7 @@
 \setlength{\hoffset}{0pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % headers and such (fancyhdr)
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setlength{\voffset}{-46.8pt}
 \setlength{\hoffset}{0.0in}
 \setlength{\topmargin}{12pt}
@@ -49,7 +51,11 @@
 \newcommand{\shortTitle}[1]{\gdef\@shortTitle{#1}}
 \newcommand{\confTitle}[1]{\gdef\@confTitle{#1}}
 \newcommand{\confLocation}[1]{\gdef\@confLocation{#1}}
-\newcommand{\confPublished}[1]{\gdef\@confPublished{#1}}
+\newcommand{\reffig}[1]{Fig.~\ref{#1}}
+\newcommand{\reffigs}[2]{Figs.~\ref{#1}~\&~\ref{#2}}
+\newcommand{\reffigr}[2]{Figs.~\ref{#1}~--~\ref{#2}}
+\newcommand{\reftab}[1]{Table~\ref{#1}}
+%\newcommand{\confPublished}[1]{\gdef\@confPublished{#1}}
 
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -59,14 +65,16 @@
 \fancyhead[CE]{{\scriptsize \@authorHead}}
 \fancyhead[CO]{{\scriptsize \@shortTitle}}
 \lfoot{\scriptsize{\@confTitle, \\ \@confLocation.}}
-\rfoot{\thepage/\pageref{LastPage}}
+%\rfoot{\thepage/\pageref{LastPage}}
 \pagestyle{fancy}
+%\pagestyle{empty}
 
 % Header/footer for first page
 \fancypagestyle{plain}{
   \fancyhf{}
-  \lhead{\scriptsize{\emph{\@confTitle} \\ \@confLocation, \@confPublished}}
-  \lfoot{}
+%  \lhead{}
+%  \lfoot{}
+\lhead{\scriptsize{\emph{\@confTitle} \\ \@confLocation}}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,7 +84,7 @@
 \titlelabel{\thetitle. }  % Add period after section number
 
 % Set format for headings
-\titleformat*{\section}{\normalsize\bfseries\centering\MakeUppercase}
+\titleformat*{\section}{\normalsize\bfseries\MakeUppercase}
 \titleformat*{\subsection}{\normalsize\bfseries}
 \titleformat*{\subsubsection}{\normalsize\bfseries}
 
@@ -84,7 +92,6 @@
 \titlespacing{\section}{0pt}{1.0ex plus 1ex minus .2ex}{.2ex plus .2ex}
 \titlespacing{\subsection}{0pt}{1.0ex plus 1ex minus .2ex}{.2ex plus .2ex}
 \titlespacing{\subsubsection}{0pt}{1.0ex plus 1ex minus .2ex}{.2ex plus .2ex}
-
 
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 \renewcommand{\footnotesize}{\fontsize{9}{10.8pt}\selectfont}
@@ -95,7 +102,8 @@
 % Captions for figures and tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\captionsetup{labelfont=bf, textfont=bf, labelsep=period}
+\DeclareCaptionFont{xbf}{\bfseries\boldmath}
+\captionsetup{labelfont=bf, textfont=bf, labelsep=period, font=xbf}
 \captionsetup[table]{skip=0pt}
 \renewcommand{\thetable}{\@Roman\c@table}
 
@@ -123,6 +131,13 @@
 }
 
 \RequirePackage[style]{abstract}
-\renewcommand{\abstitlestyle}[1]{\bfseries\centering\MakeUppercase#1}
+\renewcommand{\abstitlestyle}[1]{\bfseries\MakeUppercase#1}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
 
-\AtBeginDocument{\raggedright}
+\AtBeginDocument{\thispagestyle{plain}}
+%\AtBeginDocument{\raggedright}
+
+\makeatletter
+\renewcommand\@biblabel[1]{#1.}
+\makeatother
